@@ -1,5 +1,11 @@
 const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
+// to remove warn some colors have been renamed
+delete colors['lightBlue'];
+delete colors['warmGray'];
+delete colors['trueGray'];
+delete colors['coolGray'];
+delete colors['blueGray'];
 
 module.exports = {
   mode: 'jit', 

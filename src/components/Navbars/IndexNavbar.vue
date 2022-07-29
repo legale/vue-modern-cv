@@ -10,7 +10,7 @@
       >
         <router-link to="/">
           <a
-            class="text-blueGray-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+            class="text-slate-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
             href="#pablo"
           >
             Modern CV
@@ -19,7 +19,7 @@
         <button
           class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
           type="button"
-          v-on:click="setNavbarOpen"
+          @click="setNavbarOpen"
         >
           <i class="fas fa-bars"></i>
         </button>
@@ -32,11 +32,11 @@
         <ul class="flex flex-col lg:flex-row list-none mr-auto">
           <li class="flex items-center">
             <a
-              class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              class="hover:text-slate-500 text-slate-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
               href=""
             >
               <i
-                class="text-blueGray-400 far fa-file-alt text-lg leading-lg mr-2"
+                class="text-slate-400 far fa-file-alt text-lg leading-lg mr-2"
               />
               Docs
             </a>
@@ -44,37 +44,53 @@
         </ul>
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
           <li class="flex items-center">
-            <index-dropdown />
+            <IndexDropdown name="Страницы" textColor="#000">
+              <H>Admin Layout</H>
+              <Item to="/index">Index</Item>
+              <Item to="/admin/dashboard">Dashboard</Item>
+              <Item to="/admin/settings">Settings</Item>
+              <Item to="/admin/tables">Tables</Item>
+              <Item to="/admin/maps">Maoops</Item>
+              <H>Auth Layout</H>
+              <Item to="/auth/login">Login</Item>
+              <Item to="/auth/register">Register</Item>
+              <H>No Layout</H>
+              <Item to="/landing">Landing</Item>
+              <Item to="/profile">Profile</Item>
+              <H>CV</H>
+              <Item to="/cv1">cv1</Item>
+
+            </IndexDropdown>
           </li>
           <li class="flex items-center">
             <a
-              class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              class="hover:text-slate-500 text-slate-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
               href=""
               target="_blank"
             >
-              <i class="text-blueGray-400 fab fa-facebook text-lg leading-lg" />
+              <i class="text-slate-400 fab fa-facebook text-lg leading-lg" />
               <span class="lg:hidden inline-block ml-2">Share</span>
             </a>
           </li>
 
           <li class="flex items-center">
             <a
-              class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              class="hover:text-slate-500 text-slate-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
               href=""
               target="_blank"
             >
-              <i class="text-blueGray-400 fab fa-twitter text-lg leading-lg" />
+              <i class="text-slate-400 fab fa-twitter text-lg leading-lg" />
               <span class="lg:hidden inline-block ml-2">Tweet</span>
             </a>
           </li>
 
           <li class="flex items-center">
             <a
-              class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              class="hover:text-slate-500 text-slate-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
               href="https://github.com/legale/vue-modern-cv"
               target="_blank"
             >
-              <i class="text-blueGray-400 fab fa-github text-lg leading-lg" />
+              <i class="text-slate-400 fab fa-github text-lg leading-lg" />
               <span class="lg:hidden inline-block ml-2">Star</span>
             </a>
           </li>
@@ -95,7 +111,8 @@
 
 <script>
 import IndexDropdown from "@/components/Dropdowns/IndexDropdown.vue";
-
+import Item from "@/components/Dropdowns/IndexDropdownItem.vue";
+import H from "@/components/Dropdowns/IndexDropdownHeader.vue";
 export default {
   data() {
     return {
@@ -108,7 +125,7 @@ export default {
     },
   },
   components: {
-    IndexDropdown,
+    IndexDropdown, Item, H,
   },
 };
 </script>

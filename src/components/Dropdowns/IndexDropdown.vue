@@ -1,118 +1,56 @@
 <template>
-  <div>
-    <a
-      class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
-      href="#pablo"
-      ref="btnDropdownRef"
-      v-on:click="toggleDropdown($event)"
-    >
-      Demo Pages
-    </a>
-    <div
-      ref="popoverDropdownRef"
-      class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
-      v-bind:class="{
-        hidden: !dropdownPopoverShow,
-        block: dropdownPopoverShow,
-      }"
-    >
-      <span
-        class="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
-      >
-        Admin Layout
-      </span>
-      
-      <router-link
-        to="/index"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Index
-      </router-link>
-      
-      <router-link
-        to="/admin/dashboard"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Dashboard
-      </router-link>
-      <router-link
-        to="/admin/settings"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Settings
-      </router-link>
-      <router-link
-        to="/admin/tables"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Tables
-      </router-link>
-      <router-link
-        to="/admin/maps"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Maps
-      </router-link>
-      <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
-      <span
-        class="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
-      >
-        Auth Layout
-      </span>
-      <router-link
-        to="/auth/login"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Login
-      </router-link>
-      <router-link
-        to="/auth/register"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Register
-      </router-link>
-      <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
-      <span
-        class="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
-      >
-        No Layout
-      </span>
-      <router-link
-        to="/landing"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Landing
-      </router-link>
-      <router-link
-        to="/profile"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-      >
-        Profile
-      </router-link>
+  <div v-on:click="toggle()" class="relative inline-block text-left">
+    <div>
+      <button type="button" :style="{color: textColor}" class="caret-transparent lg:hover:text-slate-200 text-slate-700
+     px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold
+    ">
+        {{ name }}
+      </button>
+    </div>
+
+    <div v-bind:class="{ hidden: !opened }"
+         class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="py-1" role="none">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
-<script>
-import { createPopper } from "@popperjs/core";
 
+<script>
 export default {
   data() {
     return {
-      dropdownPopoverShow: false,
-    };
+      opened: false,
+    }
   },
+  props: {
+    textColor: {type: String, default: "#fff"},
+    name: {type: String, default: ""},
+  },
+
   methods: {
-    toggleDropdown: function (event) {
-      event.preventDefault();
-      if (this.dropdownPopoverShow) {
-        this.dropdownPopoverShow = false;
-      } else {
-        this.dropdownPopoverShow = true;
-        createPopper(this.$refs.btnDropdownRef, this.$refs.popoverDropdownRef, {
-          placement: "bottom-start",
-        });
+    toggle: function () {
+      if (!this.isActive) {
+        document.addEventListener('click', this.clickOutside);
+      }
+      this.opened = !this.opened;
+    },
+    clickOutside: function (e) {
+      if (!this._closest(this.$el, e.target)) {
+        this.opened = false;
+        document.removeEventListener('click', this.close_cb);
       }
     },
-  },
-};
+    /* Element.closest analog but with Element instead of css selector */
+    _closest: function (_this, el) {
+      if (_this === el) return el;
+      if (!el.parentElement) return;
+      return this._closest(_this, el.parentElement);
+    }
+
+  }
+}
+
 </script>
